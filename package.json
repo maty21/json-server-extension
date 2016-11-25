@@ -2,7 +2,7 @@
   "name": "json-server-sxtension",
   "version": "1.0.0",
   "description": "nice additions for json-server in order to support large scale applications",
-  "main": "jsonExtender.js",
+  "main": "lib/jsonExtender.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
