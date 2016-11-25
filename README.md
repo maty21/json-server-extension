@@ -10,6 +10,7 @@ but in my opinion there where some caveat that i tried to solve in this package
   static and generated files
 
 ## Example
+full example can be found here https://github.com/maty21/json-server-extension-example
 ### init example
 ```js
 const jsonServer = require('json-server');
