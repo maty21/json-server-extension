@@ -26,7 +26,7 @@ const jsonExtender = new _jsonExtender({filePath:'./db_extends.json',
 
 //register accept array of generators or path to the generator scripts
 //const funcs =  Object.keys(generators).map(key => generators[key])
-jsonExtender.register('./generators');
+jsonExtender.register('../../../generators');
 jsonExtender.generate().then((data)=>{
   console.log(`wow ${data}`);
   var server = jsonServer.create()
