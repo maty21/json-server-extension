@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Json-server-extension : nice additions for  json-server in order to support large scale applications">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Json-server-extension</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/maty21/json-server-extension">View on GitHub</a>
+
+          <h1 id="project_title">Json-server-extension</h1>
+          <h2 id="project_tagline">nice additions for  json-server in order to support large scale applications</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/maty21/json-server-extension/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/maty21/json-server-extension/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="json-server-extension" class="anchor" href="#json-server-extension" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>json-server-extension</h1>
+
+<p>json-server is great for stub server usage
+but in my opinion there where some caveat that i tried to solve in this package</p>
+
+<h3>
+<a id="so-what-this-package-gives-you" class="anchor" href="#so-what-this-package-gives-you" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>so what this package gives you</h3>
+
+<ul>
+<li>[x] <strong>splitting to static files -</strong>   json-server can serve only single file but in medium/large applications it not ideal, by using this package you can split your json object to files</li>
+<li>[x] <strong>dynamic generation -</strong>  with json server you can generate the whole file
+now you can create multiple generated objects decoupled each other and even combine
+static and generated files</li>
+</ul>
+
+<h2>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h2>
+
+<p>full example can be found here <a href="https://github.com/maty21/json-server-extension-example">https://github.com/maty21/json-server-extension-example</a></p>
+
+<h3>
+<a id="init-example" class="anchor" href="#init-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>init example</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-c1">jsonServer</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>json-server<span class="pl-pds">'</span></span>);
+<span class="pl-k">const</span> <span class="pl-c1">_jsonExtender</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./jsonExtender<span class="pl-pds">'</span></span>);
+
+<span class="pl-c">//options:</span>
+<span class="pl-c">//fullPath:fullpath for the combined object</span>
+<span class="pl-c">//generatedPath:the path where the generated files will be found</span>
+<span class="pl-c">//staticPath:the path where the static files will be found</span>
+<span class="pl-k">const</span> <span class="pl-c1">jsonExtender</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">_jsonExtender</span>({filePath<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">'</span>./db_extends.json<span class="pl-pds">'</span></span>,
+                                        generatedPath<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">'</span>./generated<span class="pl-pds">'</span></span>,
+                                        staticPath<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">'</span>./static<span class="pl-pds">'</span></span>})
+
+<span class="pl-c">//register accept array of generators or path to the generator scripts</span>
+<span class="pl-c">//const funcs =  Object.keys(generators).map(key =&gt; generators[key])</span>
+<span class="pl-smi">jsonExtender</span>.<span class="pl-en">register</span>(<span class="pl-s"><span class="pl-pds">'</span>../../../generators<span class="pl-pds">'</span></span>);
+<span class="pl-smi">jsonExtender</span>.<span class="pl-en">generate</span>().<span class="pl-en">then</span>((<span class="pl-smi">data</span>)<span class="pl-k">=&gt;</span>{
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">`</span>wow <span class="pl-s1"><span class="pl-pse">${</span>data<span class="pl-pse">}</span></span><span class="pl-pds">`</span></span>);
+  <span class="pl-k">var</span> server <span class="pl-k">=</span> <span class="pl-smi">jsonServer</span>.<span class="pl-en">create</span>()
+  <span class="pl-k">var</span> router <span class="pl-k">=</span> <span class="pl-smi">jsonServer</span>.<span class="pl-en">router</span>(<span class="pl-s"><span class="pl-pds">'</span>./db_extends.json<span class="pl-pds">'</span></span>)
+  <span class="pl-k">var</span> middlewares <span class="pl-k">=</span> <span class="pl-smi">jsonServer</span>.<span class="pl-en">defaults</span>()
+
+  <span class="pl-smi">server</span>.<span class="pl-en">use</span>(middlewares)
+  <span class="pl-smi">server</span>.<span class="pl-en">use</span>(router)
+  <span class="pl-smi">server</span>.<span class="pl-en">listen</span>(<span class="pl-c1">4000</span>, <span class="pl-k">function</span> () {
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>JSON Server is running<span class="pl-pds">'</span></span>)
+  }).<span class="pl-en">catch</span>((<span class="pl-smi">err</span>) <span class="pl-k">=&gt;</span> {<span class="pl-en">console</span>.<span class="pl-c1">log</span>(err)})
+
+});</pre></div>
+
+<h3>
+<a id="generator-example" class="anchor" href="#generator-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>generator Example</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-c1">amount</span> <span class="pl-k">=</span> <span class="pl-c1">100</span>;
+ <span class="pl-k">const</span> <span class="pl-c1">func</span> <span class="pl-k">=</span><span class="pl-smi">next</span> <span class="pl-k">=&gt;</span>create =&gt; {
+    <span class="pl-k">const</span> <span class="pl-c1">path</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">`</span>feed/feedList.json<span class="pl-pds">`</span></span>;
+    <span class="pl-k">const</span> <span class="pl-c1">data</span> <span class="pl-k">=</span> (<span class="pl-smi">amount</span>)<span class="pl-k">=&gt;</span> {
+        <span class="pl-k">let</span> temp <span class="pl-k">=</span> [];
+        <span class="pl-k">for</span> (<span class="pl-k">let</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> amount; i<span class="pl-k">++</span>) {
+            <span class="pl-smi">temp</span>.<span class="pl-c1">push</span>({
+                    id<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">`</span><span class="pl-s1"><span class="pl-pse">${</span>i<span class="pl-pse">}</span></span>N12134<span class="pl-pds">`</span></span>,
+                    newNotificationCount<span class="pl-k">:</span> i <span class="pl-k">*</span> <span class="pl-c1">3</span>,
+                    isRead<span class="pl-k">:</span> (i <span class="pl-k">%</span> <span class="pl-c1">2</span> <span class="pl-k">==</span> <span class="pl-c1">0</span>),
+                    isStarMark<span class="pl-k">:</span> (i <span class="pl-k">%</span> <span class="pl-c1">4</span> <span class="pl-k">==</span> <span class="pl-c1">0</span>),
+                    iconType<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>SocialNotifications<span class="pl-pds">"</span></span>,
+                    description<span class="pl-k">:</span> i <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span>: this is a new  feed <span class="pl-pds">"</span></span>,
+                    date<span class="pl-k">:</span> <span class="pl-k">new</span> <span class="pl-en">Date</span>(<span class="pl-c1">Date</span>.<span class="pl-en">now</span>()).<span class="pl-c1">toLocaleString</span>()
+                }
+            )
+        }
+        <span class="pl-k">return</span> temp;
+    }
+    <span class="pl-en">create</span>({data<span class="pl-k">:</span> {feed<span class="pl-k">:</span> <span class="pl-en">data</span>(amount)}, path<span class="pl-k">:</span> path})
+    <span class="pl-en">next</span>(create);
+
+}
+<span class="pl-c1">module</span>.<span class="pl-smi">exports</span> <span class="pl-k">=</span> func;</pre></div>
+
+<h2>
+<a id="api" class="anchor" href="#api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>api</h2>
+
+<h4>
+<a id="constructor" class="anchor" href="#constructor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constructor</h4>
+
+<p><code>constructor({filePath:'string',generatedPath:'string, staticPath:'string'})</code></p>
+
+<ul>
+<li>
+<code>fullPath</code>- fullpath for the combined object</li>
+<li>
+<code>generatedPath</code>- the path where the generated files will be found <code>default
+: './generated'</code>
+</li>
+<li>
+<code>staticPath</code>- the path where the static files will be found  <code>default
+: './static'</code>
+</li>
+</ul>
+
+<h4>
+<a id="register" class="anchor" href="#register" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>register</h4>
+
+<p><code>register('path name') / register([...generator scripts])</code></p>
+
+<ul>
+<li>
+<code>register('path name')</code> - a path where the generators scripts will be found the package will insatiate the scripts automatically</li>
+<li>
+<code>register([...generator scripts])</code> -array of your generators after requiring them manually</li>
+</ul>
+
+<h4>
+<a id="generate" class="anchor" href="#generate" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>generate</h4>
+
+<p><code>generate(isRun[default:true]) return promise</code></p>
+
+<ul>
+<li>
+<code>isRun</code> - there is ability to not generate the db.json each time good when you want to save the state after you close the process the promise will recive the same data so you will not have to change the code</li>
+<li>
+<code>promise</code>
+
+<ul>
+<li>
+<code>resolve</code> -{files:array of combined files, filePath:the combined file path }</li>
+<li>
+<code>reject</code>- error</li>
+</ul>
+</li>
+</ul>
+
+<h3>
+<a id="generator" class="anchor" href="#generator" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>generator</h3>
+
+<p><code>const func= next =&gt;create =&gt; {}</code> - the generator should be initiated as follows first you will have to call for create this is sync function and the for next</p>
+
+<ul>
+<li>
+<code>create({data: {feed: generatedObject}, path: path})</code>
+
+<ul>
+<li>
+<code>data</code> - the generated data where the name of the property will be the routing name in this case <code>feed</code>
+</li>
+<li>
+<code>path</code> - a relative path under the generated path that you set in the constructor where you wish to put the output</li>
+</ul>
+</li>
+<li>
+<code>next(create)</code> - just pass the create function there so it's reference will be passed  in the pipeline</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Json-server-extension maintained by <a href="https://github.com/maty21">maty21</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
