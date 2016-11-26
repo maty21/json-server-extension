@@ -37,7 +37,7 @@ jsonExtender.generate().then((data)=>{
   server.use(router)
   server.listen(4000, function () {
     console.log('JSON Server is running')
-  })
+  }).catch((err) => {console.log(err)})
 
 });
 ```
