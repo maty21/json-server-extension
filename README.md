@@ -11,6 +11,8 @@ but in my opinion there where some caveat that i tried to solve in this package
 
 ## Example
 full example can be found here https://github.com/maty21/json-server-extension-example
+## Install
+`` npm i json-server-extension ``
 ### init example
 ```js
 const jsonServer = require('json-server');
