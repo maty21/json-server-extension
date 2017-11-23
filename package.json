@@ -4,9 +4,17 @@
   "description": "nice additions for json-server in order to support large scale applications",
   "main": "lib/jsonExtender.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
-  "keywords": ["json","json-server","stub","combine","stub server"],
+  "keywords": [
+    "json",
+    "json-server",
+    "stub",
+    "combine",
+    "stub server"
+  ],
   "author": "maty zisserman",
   "license": "MIT",
   "dependencies": {
@@ -15,7 +23,8 @@
     "fs-finder": "^1.8.1",
     "json-concat": "0.0.1",
     "json-server": "^0.9.0",
-    "require-dir": "^0.3.1"
+    "require-dir": "^0.3.1",
+    "snyk": "^1.49.5"
   },
   "repository": {
     "type": "git",
@@ -24,5 +33,6 @@
   "bugs": {
     "url": "https://github.com/maty21/json-server-extension/issues"
   },
-  "homepage": "https://github.com/maty21/json-server-extension#readme"
+  "homepage": "https://github.com/maty21/json-server-extension#readme",
+  "snyk": true
 }
